@@ -1,0 +1,9 @@
+names:
+- Scratch
+- Spot
+- Rust
+nc: 3
+path: /mnt/c/Users/anubh/OneDrive/Desktop/CSDD_resized # Replace with local path to the dataset folder
+test: img/test
+train: img/train
+val: img/val
