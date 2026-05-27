@@ -3,7 +3,7 @@ import shutil
 import glob
 from tqdm import tqdm
 
-BASE_DIR = "/mnt/c/Users/anubh/OneDrive/Desktop/CSDD_resized"
+BASE_DIR = "/mnt/c/Users/anubh/OneDrive/Desktop/CSDD_resized" # Replace with local path to dataset folder
 TRAIN_IMG = os.path.join(BASE_DIR, "img/train")
 TRAIN_LBL = os.path.join(BASE_DIR, "labels/train")
 
@@ -45,4 +45,4 @@ def oversample_rust(factor=1):
     print(f" Total training images now: {len(os.listdir(TRAIN_IMG))}")
 
 if __name__ == "__main__":
-    oversample_rust(factor=1)
+    oversample_rust(factor=1) # change factor to whatever you want
