@@ -39,6 +39,7 @@ for split in SPLITS:
             with open(label_path, 'r') as f:
                 for line in f:
                     cls, x, y, nw, nh = map(float, line.split()[:5])
+                    
                     # YOLO specific coordinates
                     x1 = int((x - nw/2) * w)
                     y1 = int((y - nh/2) * h)
