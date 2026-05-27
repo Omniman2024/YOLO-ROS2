@@ -17,7 +17,6 @@ def resize_dataset(subfolder, is_mask=False):
             img_resized.save(os.path.join(out_path, filename)) 
     print(f"Finished resizing {subfolder}") 
     
-
 resize_dataset("img/train", is_mask=False) 
 resize_dataset("ground_truth/train", is_mask=True) 
 resize_dataset("img/test", is_mask=False) 
