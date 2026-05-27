@@ -58,4 +58,4 @@ def generate_yolo_configs(cls_pw, obj_pw, base_path=DEFAULT_BASE, dataset_path=D
     print(f" Hyp YAML:  {hyp_yaml_path}")
 
 if __name__ == "__main__":
-    generate_yolo_configs(cls_pw=1.0, obj_pw=1.0)
+    generate_yolo_configs(cls_pw=1.0, obj_pw=1.0) # change these parameters to play around with the weighted loss parameters 
