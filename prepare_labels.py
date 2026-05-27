@@ -33,7 +33,6 @@ def prepare_yolo_labels(split):
                 width = bw / w
                 height = bh / h
                 yolo_labels.append(f"{class_id - 1} {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}")
-
         label_path = f"{OUT_BASE}/{split}/{img_name.replace('.jpg', '.txt')}"
         with open(label_path, 'w') as f:
             f.write("\n".join(yolo_labels))
