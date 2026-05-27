@@ -29,5 +29,6 @@ output_path = os.path.join(
     OUTPUT_DIR,
     "prediction_" + os.path.basename(IMAGE_PATH)
 )
+
 cv2.imwrite(output_path, results.ims[0])
 print(f"\nPrediction saved at:\n{output_path}")
