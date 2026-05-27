@@ -30,7 +30,6 @@ class CSDDMasterAuditor:
             mask_path = os.path.join(self.mask_dir, f"{img_id}_mask.png")
             results = self.model(img_path)
             preds = results.xyxy[0].cpu().numpy() 
-            
             # Metrics Logic (IoU)
             if os.path.exists(mask_path):
                 self._compute_metrics(mask_path, preds)
