@@ -87,7 +87,7 @@ Recognizing the limitations of manual tuning, we deployed an automated **Genetic
 | **Phase 2: Manual Tuning** | 7.2M | 17.2ms | Marginal | < Baseline | Asymmetric loss tuning unsuccessful |
 | **Phase 3: Champion DNA (Gen 43)** | 7.2M | 17.2ms | **Optimized** | **+0.78%** | **+2.6% mAP** specifically for Rust |
 
-##  Cyber-Physical Interface (Sim2Real Bridge)
+## 🤖 Cyber-Physical Interface (Sim2Real Bridge)
 
 Bridging the gap between software and hardware, the optimized "Champion" model was deployed into a **Cyber-Physical System (CPS)**. 
 
