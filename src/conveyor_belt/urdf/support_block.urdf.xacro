@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot name="support_block" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="length" default="2.4"/>
+  <xacro:arg name="width" default="0.9"/>
+  <xacro:arg name="height" default="0.1"/>
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 ${float(xacro.arg('height')) / 2.0}" rpy="0 0 0"/>
+      <mass value="150.0"/>
+      <inertia
+        ixx="10.0" ixy="0.0" ixz="0.0"
+        iyy="10.0" iyz="0.0"
+        izz="10.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 ${float(xacro.arg('height')) / 2.0}" rpy="0 0 0"/>
+      <geometry>
+        <box size="$(arg length) $(arg width) $(arg height)"/>
+      </geometry>
+      <material name="support_gray">
+        <color rgba="0.35 0.35 0.38 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 ${float(xacro.arg('height')) / 2.0}" rpy="0 0 0"/>
+      <geometry>
+        <box size="$(arg length) $(arg width) $(arg height)"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo>
+    <static>true</static>
+  </gazebo>
+
+  <gazebo reference="base_link">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <kp>1000000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
+</robot>

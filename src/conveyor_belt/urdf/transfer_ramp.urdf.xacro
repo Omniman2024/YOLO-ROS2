@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot name="transfer_ramp" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="length" default="0.55"/>
+  <xacro:arg name="width" default="0.7"/>
+  <xacro:arg name="thickness" default="0.05"/>
+  <xacro:arg name="angle_deg" default="22.0"/>
+
+  <xacro:property name="angle_rad" value="${float(xacro.arg('angle_deg')) * 3.141592653589793 / 180.0}"/>
+  <xacro:property name="length" value="${float(xacro.arg('length'))}"/>
+  <xacro:property name="thickness" value="${float(xacro.arg('thickness'))}"/>
+  <xacro:property name="center_x" value="${0.5 * length * cos(angle_rad)}"/>
+  <xacro:property name="center_z" value="${0.5 * thickness + 0.5 * length * sin(angle_rad)}"/>
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="${center_x} 0 ${center_z}" rpy="0 ${-angle_rad} 0"/>
+      <mass value="40.0"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="${center_x} 0 ${center_z}" rpy="0 ${-angle_rad} 0"/>
+      <geometry>
+        <box size="$(arg length) $(arg width) $(arg thickness)"/>
+      </geometry>
+      <material name="ramp_gray">
+        <color rgba="0.30 0.30 0.32 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="${center_x} 0 ${center_z}" rpy="0 ${-angle_rad} 0"/>
+      <geometry>
+        <box size="$(arg length) $(arg width) $(arg thickness)"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo>
+    <static>true</static>
+  </gazebo>
+
+  <gazebo reference="base_link">
+    <mu1>0.08</mu1>
+    <mu2>0.08</mu2>
+    <kp>1000000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
+</robot>

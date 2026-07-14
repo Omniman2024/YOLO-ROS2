@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot name="piston" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="piston_link" params="link_name">
+    <link name="${link_name}">
+      <inertial>
+        <origin xyz="-0.43181934700109975 0.20000000000000004 0.04000000000000001" rpy="0 0 0"/>
+        <mass value="76.63405629283565"/>
+        <inertia ixx="0.613203" iyy="7.931257" izz="8.503778" ixy="0.0" iyz="0.0" ixz="0.0"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 1.5708"/>
+        <geometry>
+          <mesh filename="package://conveyor_belt/meshes/piston_base_link.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 1.5708"/>
+        <geometry>
+          <mesh filename="package://conveyor_belt/meshes/piston_base_link.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+</robot>

@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<robot name="conveyor_belt" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find conveyor_belt)/urdf/piston.urdf.xacro"/>
+  <xacro:arg name="enable_camera" default="true"/>
+  <xacro:arg name="enable_pusher" default="true"/>
+  <xacro:arg name="camera_name" default="belt_camera"/>
+  <xacro:arg name="camera_topic" default="belt_camera/image_raw"/>
+  <xacro:arg name="camera_info_topic" default="belt_camera/camera_info"/>
+  <xacro:arg name="camera_frame_id" default="camera_link"/>
+
+  <!-- =========================================================
+       Conveyor Belt URDF for Gazebo Harmonic (gz-sim8)
+       Migrated from Gazebo Classic.
+       Key changes:
+         - <gazebo> tags replaced with <gz:...> equivalents where needed
+         - Plugin referenced via gz-harmonic filename convention
+         - Material colors via <material> in <visual> (SDF-compatible)
+  ========================================================= -->
+
+  <!-- ======================== Links ======================== -->
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="1.15972439062802E-17 -0.0273162100367329 1.02144955943776E-17" rpy="0 0 0"/>
+      <mass value="2430.68583470577"/>
+      <inertia
+        ixx="431.198140853202"
+        ixy="2.18658245479853E-14"
+        ixz="4.38017677684144E-14"
+        iyy="7514.31711977665"
+        iyz="3.72364768160213E-15"
+        izz="7545.20095484556"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/base_link.STL"/>
+      </geometry>
+      <material name="graphite_frame">
+        <color rgba="0.34 0.35 0.37 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/base_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="belt_link">
+    <inertial>
+      <origin xyz="2.84 0.005 2.76334119905601E-17" rpy="0 0 0"/>
+      <mass value="56.8"/>
+      <inertia
+        ixx="4.73380666666667"
+        ixy="3.71142749699624E-34"
+        ixz="2.20830761084774E-15"
+        iyy="157.442026666667"
+        iyz="2.30486925841449E-19"
+        izz="152.709166666667"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/belt_link.STL"/>
+      </geometry>
+      <material name="belt_black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/belt_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <xacro:if value="$(arg enable_camera)">
+    <!-- Camera mounted above the belt -->
+  <link name="camera_link">
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="1e-4"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+      <material name="sensor_dark">
+        <color rgba="0.18 0.19 0.21 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+    <origin xyz="0 -0.07 1.0" rpy="0 1.5708 1.5708"/>
+  </joint>
+
+  <gazebo reference="camera_link">
+    <sensor name="$(arg camera_name)" type="camera">
+      <always_on>true</always_on>
+      <update_rate>30</update_rate>
+      <visualize>true</visualize>
+      <gz_frame_id>$(arg camera_frame_id)</gz_frame_id>
+      <topic>$(arg camera_topic)</topic>
+      <camera>
+        <camera_info_topic>$(arg camera_info_topic)</camera_info_topic>
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.05</near>
+          <far>20.0</far>
+        </clip>
+      </camera>
+    </sensor>
+  </gazebo>
+  </xacro:if>
+
+  <!-- Manual pusher near the spawn zone -->
+  <xacro:if value="$(arg enable_pusher)">
+  <xacro:piston_link link_name="spawn_pusher_link"/>
+  <xacro:piston_link link_name="center_pusher_link"/>
+  </xacro:if>
+
+
+
+  <!-- ======================== Joint ======================== -->
+
+  <!-- Prismatic joint: belt slides along -X axis.
+       The plugin resets position to 0 when it hits the upper limit,
+       simulating a looping conveyor. -->
+  <joint name="belt_joint" type="prismatic">
+    <origin xyz="-2.83 0 0.3" rpy="1.5708 0 0"/>
+    <parent link="base_link"/>
+    <child link="belt_link"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="0" upper="0.01" effort="1000" velocity="10"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+
+  <xacro:if value="$(arg enable_pusher)">
+  <joint name="spawn_pusher_joint" type="prismatic">
+    <origin xyz="-2.0 -0.60 0.35" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="spawn_pusher_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.5" effort="1200" velocity="3.0"/>
+    <dynamics damping="5.0" friction="0.2"/>
+  </joint>
+
+  <joint name="center_pusher_joint" type="prismatic">
+    <origin xyz="0.0 -0.60 0.35" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="center_pusher_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="1.5" effort="1200" velocity="3.0"/>
+    <dynamics damping="5.0" friction="0.2"/>
+  </joint>
+  </xacro:if>
+
+
+  <!-- ================== Gazebo Harmonic Plugin ================== -->
+  <!--
+    In Gazebo Harmonic the plugin is a gz::sim::System.
+    The filename uses the gz- prefix; ROS install places it in
+    the ament index so gz-sim finds it via GZ_SIM_SYSTEM_PLUGIN_PATH.
+  -->
+  <gazebo>
+    <plugin filename="gz-sim-joint-controller-system"
+            name="gz::sim::systems::JointController">
+      <joint_name>belt_joint</joint_name>
+      <initial_velocity>0.0</initial_velocity>
+    </plugin>
+    <xacro:if value="$(arg enable_pusher)">
+    <plugin filename="gz-sim-joint-controller-system"
+            name="gz::sim::systems::JointController">
+      <joint_name>spawn_pusher_joint</joint_name>
+      <initial_velocity>0.0</initial_velocity>
+    </plugin>
+    <plugin filename="gz-sim-joint-controller-system"
+            name="gz::sim::systems::JointController">
+      <joint_name>center_pusher_joint</joint_name>
+      <initial_velocity>0.0</initial_velocity>
+    </plugin>
+    </xacro:if>
+    <plugin filename="libconveyor_belt_plugin.so"
+            name="conveyor_belt::ConveyorBeltPlugin">
+      <joint_name>belt_joint</joint_name>
+      <lower_limit>0.0</lower_limit>
+      <upper_limit>0.01</upper_limit>
+      <reset_epsilon>0.0005</reset_epsilon>
+    </plugin>
+  </gazebo>
+
+  <!-- ================== Gazebo Material Colors ================== -->
+  <gazebo reference="base_link">
+    <visual>
+      <material>
+        <ambient>0.20 0.21 0.22 1</ambient>
+        <diffuse>0.34 0.35 0.37 1</diffuse>
+        <specular>0.22 0.22 0.22 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="belt_link">
+    <visual>
+      <material>
+        <ambient>0.05 0.05 0.05 1</ambient>
+        <diffuse>0 0 0 1</diffuse>
+        <specular>0.06 0.06 0.06 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+
+  <xacro:if value="$(arg enable_pusher)">
+  <gazebo reference="spawn_pusher_link">
+    <visual>
+      <material>
+        <ambient>0.42 0.10 0.10 1</ambient>
+        <diffuse>0.68 0.18 0.16 1</diffuse>
+        <specular>0.18 0.18 0.18 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+  <gazebo reference="center_pusher_link">
+    <visual>
+      <material>
+        <ambient>0.42 0.10 0.10 1</ambient>
+        <diffuse>0.68 0.18 0.16 1</diffuse>
+        <specular>0.18 0.18 0.18 1</specular>
+      </material>
+    </visual>
+  </gazebo>
+  </xacro:if>
+
+</robot>

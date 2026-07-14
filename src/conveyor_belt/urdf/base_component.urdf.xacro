@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot name="base_component" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.0 -0.25 0.1" rpy="0 0 0"/>
+      <mass value="25119.999999999996"/>
+      <inertia ixx="8457.066667" iyy="134057.066667" izz="142346.666667" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/elements/base_component_base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/elements/base_component_base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo>
+    <static>true</static>
+  </gazebo>
+
+</robot>
