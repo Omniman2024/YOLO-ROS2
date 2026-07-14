@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot name="storage" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-3.602605574021378 -0.024964728950955202 0.41141600790269395" rpy="0 0 0"/>
+      <mass value="2829.992672413793"/>
+      <inertia ixx="354.247052" iyy="506.140738" izz="536.984367" ixy="-38.673416" iyz="-7.871541" ixz="-70.928919"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/elements/storage_base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-4.175 0 0.585" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.85 0.80 0.03"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-3.3875 0 0.775" rpy="0 -0.204 0"/>
+      <geometry>
+        <box size="0.725 0.90 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo>
+    <static>true</static>
+  </gazebo>
+
+  <gazebo reference="base_link">
+    <mu1>0.08</mu1>
+    <mu2>0.08</mu2>
+    <slip1>0.5</slip1>
+    <slip2>0.5</slip2>
+    <kp>1000000.0</kp>
+    <kd>10.0</kd>
+    <maxContacts>20</maxContacts>
+  </gazebo>
+</robot>

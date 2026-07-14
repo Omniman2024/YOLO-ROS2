@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot name="ramp" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-1.4999999999999998 0.9500000000000002 0.7499999999999999" rpy="0 0 0"/>
+      <mass value="706.4999999999998"/>
+      <inertia ixx="50.6325" iyy="61.81875" izz="106.56375" ixy="0.0" iyz="10.5975" ixz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/elements/ramp_base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/elements/ramp_base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo>
+    <static>true</static>
+  </gazebo>
+
+</robot>

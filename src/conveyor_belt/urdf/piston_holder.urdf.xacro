@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot name="piston_holder" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-1.7518168059274533 0.19999999086506662 0.039960891101304415" rpy="0 0 0"/>
+      <mass value="105.3838852413642"/>
+      <inertia ixx="2.16284" iyy="17.198721" izz="18.99593" ixy="0.0" iyz="0.0" ixz="-0.002517"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://conveyor_belt/meshes/elements/piston_holder_base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <gazebo>
+    <static>true</static>
+  </gazebo>
+
+</robot>
