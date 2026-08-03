@@ -12,51 +12,52 @@ Our project is structured to ensure a clean separation between data processing, 
 
 ```text
  YOLO-ROS2
- ┣  dataset/            # Datasets containing images and labels
- ┃ ┣  ground_truth/     # Original bounding boxes
+ ┣  dataset/                   # Datasets containing ground_truth, images and labels
+ ┃ ┣  ground_truth/            # Original bounding boxes
  ┃ ┃ ┣  test/
  ┃ ┃ ┣  train/
  ┃ ┃ ┗  val/
- ┃ ┣  img/              # Image files
+ ┃ ┣  img/                     # Image files
  ┃ ┃ ┣  test/
  ┃ ┃ ┣  train/
  ┃ ┃ ┗  val/
- ┃ ┗  labels/           # YOLO format label text files
+ ┃ ┗  labels/                  # YOLO format label text files
  ┃   ┣  test/
  ┃   ┣  train/
  ┃   ┗  val/
- ┣  kaggle_evolution/   # Hyperparameter evolution scripts and results
- ┃ ┣  img/              # Sample images for evolution
+ ┣  kaggle_evolution/          # Hyperparameter evolution folder (can be directly downloaded and run in Kaggle)
+ ┃ ┣  img/                     # Image files
  ┃ ┃ ┣  test/
  ┃ ┃ ┣  train/
  ┃ ┃ ┗  val/
- ┃ ┣  labels/           # Corresponding labels
+ ┃ ┣  labels/                  # YOLO format label text files
  ┃ ┃ ┣  test/
  ┃ ┃ ┣  train/
  ┃ ┃ ┗  val/
- ┃ ┣  csdd.yaml         # Dataset configuration for evolution
- ┃ ┣  evolution_script.ipynb # Notebook running genetic algorithm
- ┃ ┗  hyp.simulation.yaml # Evolved hyperparameters (Champion DNA)
- ┣  kaggle_training/    # Model training scripts and results
- ┃ ┣  img/              # Training images
+ ┃ ┣  csdd.yaml                # Configuration for evolution
+ ┃ ┣  hyp.simulation.yaml      # Hyperparameters used for evolution
+ ┃ ┗  evolution_script.ipynb   # Code Notebook running genetic algorithm
+ ┣ championDNA.yaml            # champion set of hyperparameters found after running GA for 43 generations   
+ ┣  kaggle_training/           # Model training folder (can be directly downloaded and run in Kaggle)
+ ┃ ┣  img/                     # Image files
  ┃ ┃ ┣  test/
  ┃ ┃ ┣  train/
  ┃ ┃ ┗  val/
- ┃ ┣  labels/           # Training labels
+ ┃ ┣  labels/                  # YOLO format label text files
  ┃ ┃ ┣  test/
  ┃ ┃ ┣  train/
  ┃ ┃ ┗  val/
- ┃ ┣  csdd.yaml         # Dataset configuration for training
- ┃ ┣  hyp.simulation.yaml # Hyperparameters used for training
- ┃ ┗  training_script.ipynb # Model training pipeline notebook
- ┣  analysis.py         # ROS2 perception node evaluation
- ┣  create_config.py    # Auto-generate ROS2 launch parameters
- ┣  overlaying_gt.py    # Ground truth bounding box overlay for simulation
- ┣  oversample_rust.py  # Handling Rust class imbalance in Sim
- ┣  prepare_labels.py   # Prepares label nodes for Sim pipeline
- ┣  resize_script.py    # Real-time image scaling node
- ┣  test_run.py         # Simulation pipeline test and Sim2Real bridge
- ┗  README.md           # Project documentation
+ ┃ ┣  csdd.yaml                # Configuration for training
+ ┃ ┣  hyp.simulation.yaml      # Hyperparameters used for training
+ ┃ ┗  training_script.ipynb    # Code Notebook running the model training
+ ┣  analysis.py                # script for analysis and error metrics
+ ┣  create_config.py           # script for twisting configs
+ ┣  overlaying_gt.py           # script for overlaying given ground truth on the images
+ ┣  oversample_rust.py         # script for manual oversampling of the minority class
+ ┣  prepare_labels.py          # script for preparing labels for the images
+ ┣  resize_script.py           # script for resizing the original images to optimize processing power
+ ┣  test_run.py                # script for test running the model on any particular image
+ ┗  README.md                  # Project documentation
 ```
 
 ##  Machine Learning Pipeline & 3-Stage Experimentation
@@ -93,7 +94,7 @@ Bridging the gap between software and hardware, the optimized "Champion" model w
 
 We exported the tuned model as a highly efficient, real-time perception node within a multi-stage **ROS2 and Gazebo** environment. This simulation features a dynamic industrial conveyor belt setup where simulated camera sensors feed real-time frames to the ROS2 perception node. Upon detecting and classifying defects, the system publishes decision logic to automated actuator nodes, successfully demonstrating automated physical sorting and segregation of defective castings in a simulated industrial environment.
 
-## 👥 Contributors
+##  Contributors
 
 - **Arnav De** – Machine Learning Pipeline, Data Engineering & Hyperparameter Optimization
 - **Arya Kshirsagar** – ROS2/Gazebo Simulation, Sim2Real Integration & CAD Modeling
