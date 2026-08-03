@@ -6,7 +6,7 @@ In modern metal casting and foundry operations, surface defects such as blowhole
 
 This project addresses these critical challenges by developing a high-performance, real-time automated vision inspection system. A core focus of our research is overcoming the **"Small Object Problem"** present in the Casting Surface Defect Detection (CSDD) dataset, where microscopic flaws often span **as few as 3 pixels** in diameter, making them exceedingly difficult for standard object detection models to capture.
 
-## 🛠️ Repository Architecture
+##  Repository Architecture
 
 Our project is structured to ensure a clean separation between data processing, machine learning experimentation, and robotics simulation.
 
