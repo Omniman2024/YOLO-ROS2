@@ -79,6 +79,7 @@ To mitigate the baseline's shortcomings, we conducted manual ablation studies ta
 Recognizing the limitations of manual tuning, we deployed an automated **Genetic Algorithm (GA)** to evolve hyperparameters over **50 generations**.
 - **The Result:** The search yielded a **"Champion DNA"** at Generation 43.
 - **Performance Gains:** The champion model successfully re-calibrated the loss landscape, achieving a **2.6% mAP increase for the difficult Rust class** and a **0.78% mAP increase across all classes**, effectively curing the baseline blind spot.
+![Genetic Algorithm](gen_algo.png)
 
 ###  Metrics Comparison
 
