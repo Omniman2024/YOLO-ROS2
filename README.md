@@ -80,6 +80,7 @@ Recognizing the limitations of manual tuning, we deployed an automated **Genetic
 - **The Result:** The search yielded a **"Champion DNA"** at Generation 43.
 - **Performance Gains:** The champion model successfully re-calibrated the loss landscape, achieving a **2.6% mAP increase for the difficult Rust class** and a **0.78% mAP increase across all classes**, effectively curing the baseline blind spot.
 ![Genetic Algorithm](gen_algo.png)
+*Fig : Variation of various metrics across generations.*
 
 ###  Metrics Comparison
 
@@ -94,6 +95,8 @@ Recognizing the limitations of manual tuning, we deployed an automated **Genetic
 Bridging the gap between software and hardware, the optimized "Champion" model was deployed into a **Cyber-Physical System (CPS)**. 
 
 We exported the tuned model as a highly efficient, real-time perception node within a multi-stage **ROS2 and Gazebo** environment. This simulation features a dynamic industrial conveyor belt setup where simulated camera sensors feed real-time frames to the ROS2 perception node. Upon detecting and classifying defects, the system publishes decision logic to automated actuator nodes, successfully demonstrating automated physical sorting and segregation of defective castings in a simulated industrial environment.
+![Fig : Ground Truth Labels](GT_0641.jpg) | ![Fig : Model Predictions](PREDICTION_0641.jpg)
+*Fig : Ground Truth Labels* | *Fig : Model Predictions*
 
 ##  Contributors
 
