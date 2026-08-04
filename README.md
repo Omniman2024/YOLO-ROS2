@@ -78,7 +78,7 @@ We initialized our pipeline using the **YOLOv5s** architecture, selected for its
 | Rust | 422 | 2902 | 0.627 | 0.417 | 0.427 |
 
 <p align="center">
-  <img src="con_matrix.png" width="850"><br>
+  <img src="BASELINE_confusion_matrix.png" width="850"><br>
   <em>Confusion Matrix of Baseline Model</em>
 </p>
 
