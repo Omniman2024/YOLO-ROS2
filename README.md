@@ -70,6 +70,18 @@ We initialized our pipeline using the **YOLOv5s** architecture, selected for its
 - **Inference Speed:** 17.2ms per image (real-time capable).
 - **The Challenge:** While the baseline performed reasonably well on larger defects, it exhibited a critical **"blind spot"** for Rust detection. The model achieved a low recall of **0.417** for Rust, with confusion matrices revealing that **50% of rust defects were leaked into the background** (missed detections).
 
+| Classes | Images | Instances | P(precision) | R(recall) | mAP50 |
+|:------------:|:--------------:|:------------:|:--------------:|:------------:|:--------------:|
+| all | 422 | 11769 | 0.734 | 0.614 | 0.642 |
+| Scratch | 422 | 6711 | 0.831 | 0.767 | 0.805 |
+| Spot | 422 | 2156 | 0.744 | 0.657 | 0.694 |
+| Rust | 422 | 2902 | 0.627 | 0.417 | 0.427 |
+
+<p align="center">
+  <img src="con_matrix.png" width="850"><br>
+  <em>Confusion Matrix of Baseline Model</em>
+</p>
+
 ### Phase 2: Manual Experimentation (Ablation Studies)
 To mitigate the baseline's shortcomings, we conducted manual ablation studies targeting the minority class (Rust) and the Small Object Problem:
 - **Techniques Applied:** Manual Oversampling of minority classes and Asymmetric Weighted Loss Tuning (adjusting `cls_pw` for classification and `obj_pw` for objectness).
@@ -79,8 +91,10 @@ To mitigate the baseline's shortcomings, we conducted manual ablation studies ta
 Recognizing the limitations of manual tuning, we deployed an automated **Genetic Algorithm (GA)** to evolve hyperparameters over **50 generations**.
 - **The Result:** The search yielded a **"Champion DNA"** at Generation 43.
 - **Performance Gains:** The champion model successfully re-calibrated the loss landscape, achieving a **2.6% mAP increase for the difficult Rust class** and a **0.78% mAP increase across all classes**, effectively curing the baseline blind spot.
-![Genetic Algorithm](gen_algo.png)
-*Fig : Variation of various metrics across generations.*
+<p align="center">
+  <img src="gen_algo.png" width="700"><br>
+  <em>Variation of various metrics over generations</em>
+</p>
 
 ###  Metrics Comparison
 
@@ -95,8 +109,23 @@ Recognizing the limitations of manual tuning, we deployed an automated **Genetic
 Bridging the gap between software and hardware, the optimized "Champion" model was deployed into a **Cyber-Physical System (CPS)**. 
 
 We exported the tuned model as a highly efficient, real-time perception node within a multi-stage **ROS2 and Gazebo** environment. This simulation features a dynamic industrial conveyor belt setup where simulated camera sensors feed real-time frames to the ROS2 perception node. Upon detecting and classifying defects, the system publishes decision logic to automated actuator nodes, successfully demonstrating automated physical sorting and segregation of defective castings in a simulated industrial environment.
-| ![Fig : Ground Truth Labels](GT_0641.jpg) | ![Fig : Model Predictions](PREDICTION_0641.jpg) |
-| *Fig : Ground Truth Labels* | *Fig : Model Predictions* |
+<table>
+  <tr>
+    <td align="center">
+      <img src="GT_0641.jpg" width="500"><br>
+      <em>Ground Truth</em>
+    </td>
+    <td align="center">
+      <img src="PREDICTION_0641.jpg" width="500"><br>
+      <em>Model Prediction</em>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="SIM_action.jpeg" width="700"><br>
+  <em>Gazebo Simulation in action</em>
+</p>
 
 ##  Contributors
 
